@@ -1,0 +1,26 @@
+{
+    "id": "83181BEB",
+    "path": "C:/yuntian/Necessary/Upenn/Thesis/project/Single-cell-Long-reads/methods/LongcellPre/R/umi_count_functions.R",
+    "project_path": null,
+    "type": "r_source",
+    "hash": "2682714077",
+    "contents": "",
+    "dirty": false,
+    "created": 1708893068228.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "161,11",
+        "scrollLine": "136"
+    },
+    "folds": "13|53|70|0|\n",
+    "lastKnownWriteTime": 1708893788,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1708893788204,
+    "read_only": false,
+    "read_only_alternatives": []
+}

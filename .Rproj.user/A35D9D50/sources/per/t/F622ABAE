@@ -1,0 +1,26 @@
+{
+    "id": "F622ABAE",
+    "path": "C:/yuntian/Necessary/Upenn/Thesis/project/Single-cell-Long-reads/methods/LongcellPre/R/pipeline.R",
+    "project_path": null,
+    "type": "r_source",
+    "hash": "2545070450",
+    "contents": "",
+    "dirty": false,
+    "created": 1708832532866.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "209,38",
+        "scrollLine": "214"
+    },
+    "folds": "7|26|14|0|\n77|77|99|0|\n111|71|129|0|\n149|61|163|0|\n322|39|373|0|\n",
+    "lastKnownWriteTime": 1708961416,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1708961416256,
+    "read_only": false,
+    "read_only_alternatives": []
+}

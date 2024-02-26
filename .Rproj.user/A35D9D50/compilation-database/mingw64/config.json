@@ -1,0 +1,24 @@
+{
+    "args": [
+        "-std=gnu++11",
+        "-IC:/yuntian/programming/R-4.2.1/include",
+        "-DNDEBUG",
+        "-IC:/yuntian/programming/R-4.2.1/library/Rcpp/include",
+        "-DEIGEN_DONT_VECTORIZE",
+        "-nostdinc",
+        "-Ic:/yuntian/rstudio/rtools42/x86_64~1.pos/bin/../lib/gcc/x86_64-w64-mingw32.static.posix/10.4.0/include/c++",
+        "-Ic:/yuntian/rstudio/rtools42/x86_64~1.pos/bin/../lib/gcc/x86_64-w64-mingw32.static.posix/10.4.0/include/c++/x86_64-w64-mingw32.static.posix",
+        "-Ic:/yuntian/rstudio/rtools42/x86_64~1.pos/bin/../lib/gcc/x86_64-w64-mingw32.static.posix/10.4.0/include/c++/backward",
+        "-Ic:/yuntian/rstudio/rtools42/x86_64~1.pos/bin/../lib/gcc/x86_64-w64-mingw32.static.posix/10.4.0/include",
+        "-Ic:/yuntian/rstudio/rtools42/x86_64~1.pos/bin/../lib/gcc/x86_64-w64-mingw32.static.posix/10.4.0/../../../../include",
+        "-Ic:/yuntian/rstudio/rtools42/x86_64~1.pos/bin/../lib/gcc/x86_64-w64-mingw32.static.posix/10.4.0/include-fixed",
+        "-include",
+        "C:/yuntian/Necessary/Upenn/Thesis/project/Single-cell-Long-reads/methods/Longcellsrc/.Rproj.user/A35D9D50/compilation-database/mingw64/cpp-definitions.h"
+    ],
+    "pch": "Rcpp",
+    "is_cpp": true,
+    "hash": "1708805286",
+    "compiler": "9302527877138246503",
+    "rversion": "4.2.1",
+    "dbversion": 4
+}
