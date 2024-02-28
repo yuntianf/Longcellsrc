@@ -85,7 +85,7 @@ DataFrame extractTagFastq(const char* fastq_path,const char* out_path,
   std::vector<std::string> polyAs;
 
   std::vector<std::string> tag;
-  int i = 0;
+  int i = 0, j = 0;
   while (iss >> record) {
     i++;
     if(i % 100 == 0){
@@ -93,6 +93,9 @@ DataFrame extractTagFastq(const char* fastq_path,const char* out_path,
     }
     tag = extractTag(record,adapter,toolkit,window,step,len,
                      polyA_bin, polyA_base_count, polyA_len);
+    if(tag[4] == "1"){
+      j++;
+    }
     //cout << tag[0] << endl << tag[1] << endl << tag[2] << endl << tag[3] << endl;
     if(tag[0].size() >= 26){
       names.push_back(record.name);
@@ -106,7 +109,8 @@ DataFrame extractTagFastq(const char* fastq_path,const char* out_path,
       oss << record;
     }
   }
-  Rcpp::Rcout << "In total " << tags.size() << " reads out of " << i << " reads are identified with a valid adapter." << endl;
+  Rcpp::Rcout << "In total " << j << " reads out of " << i << " reads are identified with a valid adapter." << endl;
+  Rcpp::Rcout << "Within them, " << tags.size() << " reads are identified with a valid tag region." << endl;
   DataFrame out = DataFrame::create(Named("name") = names, Named("tag") = tags, Named("polyA") = polyAs);
   return(out);
 }
@@ -141,6 +145,7 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,
   std::reverse(rqual.begin(), rqual.end());
 
   std::string tag = "";
+  bool flag = 1;
 
   if(pos != -1 && rpos == -1){
     if(toolkit == 5){
@@ -162,10 +167,13 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,
       qual = rqual.substr(rpos);
     }
     else if(toolkit == 3){
-      tag = seq.substr(std::max(0,pos-len),min(pos+2,len+2));
-      seq = seq.substr(0,std::max(0,pos-30));
-      qual = qual.substr(0,std::max(0,pos-30));
+      tag = rseq.substr(std::max(0,rpos-len),min(rpos+2,len+2));
+      seq = rseq.substr(0,std::max(0,rpos-30));
+      qual = rqual.substr(0,std::max(0,rpos-30));
     }
+  }
+  else{
+    flag = 0;
   }
 
   //cout << seq.size() << " " << qual.size() << endl;
@@ -180,6 +188,7 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,
   result.push_back(seq);
   result.push_back(qual);
   result.push_back(std::to_string(polyA));
+  result.push_back(std::to_string(flag));
 
   return(result);
 }
