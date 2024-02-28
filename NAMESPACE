@@ -3,5 +3,5 @@
 import(Rcpp)
 importFrom(Rcpp,evalCpp)
 importFrom(Rcpp,sourceCpp)
-useDynLib(Longcellsrc)
+useDynLib(Longcellsrc, .registration=TRUE)
 exportPattern("^[[:alpha:]]+")
