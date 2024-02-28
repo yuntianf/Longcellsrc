@@ -148,8 +148,8 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,
   }
   else if(pos == -1 && rpos != -1){
     tag = rseq.substr(std::max(0,rpos-len),min(rpos+2,len+2));
-    seq = rseq.substr(rpos);
-    qual = rqual.substr(rpos);
+    seq = rseq.substr(0,std::max(0,rpos-30));
+    qual = rqual.substr(0,std::max(0,rpos-30));
   }
 
   //cout << seq.size() << " " << qual.size() << endl;
