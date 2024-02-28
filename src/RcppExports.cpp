@@ -152,21 +152,22 @@ BEGIN_RCPP
 END_RCPP
 }
 // extractTagFastq
-DataFrame extractTagFastq(const char* fastq_path, const char* out_path, const std::string adapter, const int window, const int step, const int len, const int polyA_bin, const int polyA_base_count, const int polyA_len);
-RcppExport SEXP _Longcellsrc_extractTagFastq(SEXP fastq_pathSEXP, SEXP out_pathSEXP, SEXP adapterSEXP, SEXP windowSEXP, SEXP stepSEXP, SEXP lenSEXP, SEXP polyA_binSEXP, SEXP polyA_base_countSEXP, SEXP polyA_lenSEXP) {
+DataFrame extractTagFastq(const char* fastq_path, const char* out_path, const std::string adapter, const int toolkit, const int window, const int step, const int len, const int polyA_bin, const int polyA_base_count, const int polyA_len);
+RcppExport SEXP _Longcellsrc_extractTagFastq(SEXP fastq_pathSEXP, SEXP out_pathSEXP, SEXP adapterSEXP, SEXP toolkitSEXP, SEXP windowSEXP, SEXP stepSEXP, SEXP lenSEXP, SEXP polyA_binSEXP, SEXP polyA_base_countSEXP, SEXP polyA_lenSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const char* >::type fastq_path(fastq_pathSEXP);
     Rcpp::traits::input_parameter< const char* >::type out_path(out_pathSEXP);
     Rcpp::traits::input_parameter< const std::string >::type adapter(adapterSEXP);
+    Rcpp::traits::input_parameter< const int >::type toolkit(toolkitSEXP);
     Rcpp::traits::input_parameter< const int >::type window(windowSEXP);
     Rcpp::traits::input_parameter< const int >::type step(stepSEXP);
     Rcpp::traits::input_parameter< const int >::type len(lenSEXP);
     Rcpp::traits::input_parameter< const int >::type polyA_bin(polyA_binSEXP);
     Rcpp::traits::input_parameter< const int >::type polyA_base_count(polyA_base_countSEXP);
     Rcpp::traits::input_parameter< const int >::type polyA_len(polyA_lenSEXP);
-    rcpp_result_gen = Rcpp::wrap(extractTagFastq(fastq_path, out_path, adapter, window, step, len, polyA_bin, polyA_base_count, polyA_len));
+    rcpp_result_gen = Rcpp::wrap(extractTagFastq(fastq_path, out_path, adapter, toolkit, window, step, len, polyA_bin, polyA_base_count, polyA_len));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -295,7 +296,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Longcellsrc_isos_dis", (DL_FUNC) &_Longcellsrc_isos_dis, 4},
     {"_Longcellsrc_size_filter_cpp", (DL_FUNC) &_Longcellsrc_size_filter_cpp, 2},
     {"_Longcellsrc_splice_site_table_cpp", (DL_FUNC) &_Longcellsrc_splice_site_table_cpp, 4},
-    {"_Longcellsrc_extractTagFastq", (DL_FUNC) &_Longcellsrc_extractTagFastq, 9},
+    {"_Longcellsrc_extractTagFastq", (DL_FUNC) &_Longcellsrc_extractTagFastq, 10},
     {"_Longcellsrc_baseCount", (DL_FUNC) &_Longcellsrc_baseCount, 2},
     {"_Longcellsrc_shareNeighbor", (DL_FUNC) &_Longcellsrc_shareNeighbor, 3},
     {"_Longcellsrc_isoform2sites", (DL_FUNC) &_Longcellsrc_isoform2sites, 3},

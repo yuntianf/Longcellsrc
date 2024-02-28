@@ -64,8 +64,8 @@ NULL
 #' replicate
 NULL
 
-extractTagFastq <- function(fastq_path, out_path, adapter, window, step, len, polyA_bin, polyA_base_count, polyA_len) {
-    .Call(`_Longcellsrc_extractTagFastq`, fastq_path, out_path, adapter, window, step, len, polyA_bin, polyA_base_count, polyA_len)
+extractTagFastq <- function(fastq_path, out_path, adapter, toolkit, window, step, len, polyA_bin, polyA_base_count, polyA_len) {
+    .Call(`_Longcellsrc_extractTagFastq`, fastq_path, out_path, adapter, toolkit, window, step, len, polyA_bin, polyA_base_count, polyA_len)
 }
 
 baseCount <- function(seq, base) {
