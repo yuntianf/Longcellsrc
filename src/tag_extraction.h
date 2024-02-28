@@ -25,11 +25,11 @@ std::vector<std::string> extractSoftclip(std::string seq,StringVector mark,Numer
  */
 
 DataFrame extractTagFastq(const char* fastq_path,const char* out_path,
-                                         const std::string adapter,
+                                         const std::string adapter,const int toolkit,
                                          const int window, const int step,const int len,
                                          const int polyA_bin, const int polyA_base_count,const int polyA_len);
 
-std::vector<std::string> extractTag(KSeq record, const std::string adapter,
+std::vector<std::string> extractTag(KSeq record, const std::string adapter,const int toolkit,
                                       const int window, const int step,const int len,
                                       const int polyA_bin, const int polyA_base_count,const int polyA_len);
 

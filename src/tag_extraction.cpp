@@ -71,7 +71,7 @@ std::vector<std::string> extractSoftclip(std::string seq,StringVector mark,Numer
  //' @export
 // [[Rcpp::export]]
 DataFrame extractTagFastq(const char* fastq_path,const char* out_path,
-                                         const std::string adapter,
+                                         const std::string adapter, const int toolkit,
                                          const int window, const int step,const int len,
                                          const int polyA_bin,
                                          const int polyA_base_count,const int polyA_len){
@@ -91,7 +91,7 @@ DataFrame extractTagFastq(const char* fastq_path,const char* out_path,
     if(i % 100 == 0){
       checkUserInterrupt();
     }
-    tag = extractTag(record,adapter,window,step,len,
+    tag = extractTag(record,adapter,toolkit,window,step,len,
                      polyA_bin, polyA_base_count, polyA_len);
     //cout << tag[0] << endl << tag[1] << endl << tag[2] << endl << tag[3] << endl;
     if(tag[0].size() >= 26){
@@ -123,8 +123,9 @@ DataFrame extractTagFastq(const char* fastq_path,const char* out_path,
  //' @return A string vector including read name, trimmed sequence, trimmed read quality and
  //' polyA existence for a read.
 std::vector<std::string> extractTag(KSeq record, const std::string adapter,
-                       const int window, const int step,const int len,
-                       const int polyA_bin, const int polyA_base_count,const int polyA_len){
+                                    const int toolkit,
+                                    const int window, const int step,const int len,
+                                    const int polyA_bin, const int polyA_base_count,const int polyA_len){
   std::string seq = record.seq;
   std::string qual = record.qual;
 
@@ -142,14 +143,29 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,
   std::string tag = "";
 
   if(pos != -1 && rpos == -1){
-    tag = seq.substr(std::max(0,pos-len),min(pos+2,len+2));
-    seq = seq.substr(pos);
-    qual = qual.substr(pos);
+    if(toolkit == 5){
+      tag = seq.substr(std::max(0,pos-len),min(pos+2,len+2));
+      seq = seq.substr(pos);
+      qual = qual.substr(pos);
+    }
+    else if(toolkit == 3){
+      tag = seq.substr(std::max(0,pos-len),min(pos+2,len+2));
+      seq = seq.substr(0,std::max(0,pos-30));
+      qual = qual.substr(0,std::max(0,pos-30));
+    }
+
   }
   else if(pos == -1 && rpos != -1){
-    tag = rseq.substr(std::max(0,rpos-len),min(rpos+2,len+2));
-    seq = rseq.substr(0,std::max(0,rpos-30));
-    qual = rqual.substr(0,std::max(0,rpos-30));
+    if(toolkit == 5){
+      tag = rseq.substr(std::max(0,rpos-len),min(rpos+2,len+2));
+      seq = rseq.substr(rpos);
+      qual = rqual.substr(rpos);
+    }
+    else if(toolkit == 3){
+      tag = seq.substr(std::max(0,pos-len),min(pos+2,len+2));
+      seq = seq.substr(0,std::max(0,pos-30));
+      qual = qual.substr(0,std::max(0,pos-30));
+    }
   }
 
   //cout << seq.size() << " " << qual.size() << endl;
