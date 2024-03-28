@@ -68,6 +68,10 @@ extractTagFastq <- function(fastq_path, out_path, adapter, toolkit, window, step
     .Call(`_Longcellsrc_extractTagFastq`, fastq_path, out_path, adapter, toolkit, window, step, len, polyA_bin, polyA_base_count, polyA_len)
 }
 
+strSlideSearch <- function(seq, adapter, window, step, first) {
+    .Call(`_Longcellsrc_strSlideSearch`, seq, adapter, window, step, first)
+}
+
 baseCount <- function(seq, base) {
     .Call(`_Longcellsrc_baseCount`, seq, base)
 }

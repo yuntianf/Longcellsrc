@@ -34,7 +34,7 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,const
                                       const int polyA_bin, const int polyA_base_count,const int polyA_len);
 
 int strSlideSearch(std::string seq,const std::string adapter,
-                   const int window = 12, const int step = 3);
+                   const int window = 12, const int step = 3,const bool first = true);
 
 std::vector<std::string> strSubset(std::string str,const int window, const int step);
 

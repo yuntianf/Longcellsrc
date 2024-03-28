@@ -171,6 +171,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// strSlideSearch
+int strSlideSearch(std::string seq, const std::string adapter, const int window, const int step, const bool first);
+RcppExport SEXP _Longcellsrc_strSlideSearch(SEXP seqSEXP, SEXP adapterSEXP, SEXP windowSEXP, SEXP stepSEXP, SEXP firstSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type seq(seqSEXP);
+    Rcpp::traits::input_parameter< const std::string >::type adapter(adapterSEXP);
+    Rcpp::traits::input_parameter< const int >::type window(windowSEXP);
+    Rcpp::traits::input_parameter< const int >::type step(stepSEXP);
+    Rcpp::traits::input_parameter< const bool >::type first(firstSEXP);
+    rcpp_result_gen = Rcpp::wrap(strSlideSearch(seq, adapter, window, step, first));
+    return rcpp_result_gen;
+END_RCPP
+}
 // baseCount
 int baseCount(std::string seq, char base);
 RcppExport SEXP _Longcellsrc_baseCount(SEXP seqSEXP, SEXP baseSEXP) {
@@ -297,6 +312,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Longcellsrc_size_filter_cpp", (DL_FUNC) &_Longcellsrc_size_filter_cpp, 2},
     {"_Longcellsrc_splice_site_table_cpp", (DL_FUNC) &_Longcellsrc_splice_site_table_cpp, 4},
     {"_Longcellsrc_extractTagFastq", (DL_FUNC) &_Longcellsrc_extractTagFastq, 10},
+    {"_Longcellsrc_strSlideSearch", (DL_FUNC) &_Longcellsrc_strSlideSearch, 5},
     {"_Longcellsrc_baseCount", (DL_FUNC) &_Longcellsrc_baseCount, 2},
     {"_Longcellsrc_shareNeighbor", (DL_FUNC) &_Longcellsrc_shareNeighbor, 3},
     {"_Longcellsrc_isoform2sites", (DL_FUNC) &_Longcellsrc_isoform2sites, 3},

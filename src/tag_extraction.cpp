@@ -134,10 +134,16 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,
   std::string qual = record.qual;
 
   //cout << seq.size() << " " << qual.size() << endl;
-  int pos = strSlideSearch(seq,adapter,window,step);
-
+  int pos = -1, rpos = -1;
   std::string rseq = reverseComplement(seq);
-  int rpos = strSlideSearch(rseq,adapter,window,step);
+  if(toolkit == 5){
+    pos = strSlideSearch(seq,adapter,window,step,false);
+    rpos = strSlideSearch(rseq,adapter,window,step,false);
+  }
+  else if(toolkit == 3){
+    pos = strSlideSearch(seq,adapter,window,step,true);
+    rpos = strSlideSearch(rseq,adapter,window,step,true);
+  }
 
   //std::cout << pos << ":" << rpos << endl;
 
@@ -201,9 +207,17 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,
  //' @param record A KSeq object recording a read in the fastq file.
  //' @param adapter A string to be searched in the read.
  //' @return An int to indicate the position of the adapter in the sequence, -1 if not found.
+ //' @export
+ // [[Rcpp::export]]
 int strSlideSearch(std::string seq,const std::string adapter,
-                   const int window, const int step){
-  int pos = seq.find(adapter);
+                   const int window, const int step,const bool first){
+  int pos = -1;
+  if(first){
+    pos = seq.find(adapter);
+  }
+  else{
+    pos = seq.rfind(adapter);
+  }
 
   if(pos != string::npos){
     return(pos);
@@ -212,7 +226,12 @@ int strSlideSearch(std::string seq,const std::string adapter,
     std::vector<int> pos_vec;
     std::vector<std::string> sub_adapter = strSubset(adapter,window,step);
     for(auto i:sub_adapter){
-      pos = seq.find(i);
+      if(first){
+        pos = seq.find(i);
+      }
+      else{
+        pos = seq.rfind(i);
+      }
       if(pos != string::npos){
         pos_vec.push_back(pos);
       }
