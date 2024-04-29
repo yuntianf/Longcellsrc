@@ -24,7 +24,7 @@ DataFrame extractReads(std::vector<std::string> seq,std::vector<std::string> cig
       continue;
     }
 
-    int end = seqEnd(pos[i],mark,count);
+    //int end = seqEnd(pos[i],mark,count);
 
     NumericMatrix isoform = extractIsoform(pos[i],mark,count,refer_start,refer_end,end_flank);
     isoform = splicesiteCorrect(isoform,annotation,strand,splice_site_bin);

@@ -64,8 +64,8 @@ NULL
 #' replicate
 NULL
 
-extractTagFastq <- function(fastq_path, out_path, adapter, toolkit, window, step, len, polyA_bin, polyA_base_count, polyA_len) {
-    .Call(`_Longcellsrc_extractTagFastq`, fastq_path, out_path, adapter, toolkit, window, step, len, polyA_bin, polyA_base_count, polyA_len)
+extractTagFastq <- function(fastq_path, out_path, adapter, toolkit, window, step, left_flank, right_flank, drop, polyA_bin, polyA_base_count, polyA_len) {
+    .Call(`_Longcellsrc_extractTagFastq`, fastq_path, out_path, adapter, toolkit, window, step, left_flank, right_flank, drop, polyA_bin, polyA_base_count, polyA_len)
 }
 
 strSlideSearch <- function(seq, adapter, window, step, first) {

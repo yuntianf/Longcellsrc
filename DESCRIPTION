@@ -1,7 +1,7 @@
 Package: Longcellsrc
 Type: Package
 Title: The Rcpp codes for LongcellPre
-Version: 0.1.0
+Version: 1.1.0
 Author: Yuntian
 Maintainer: Yuntian <yuntianfu0@gamil.com>
 Description: The Rcpp codes for LongcellPre.

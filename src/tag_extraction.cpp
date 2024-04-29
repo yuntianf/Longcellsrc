@@ -72,7 +72,8 @@ std::vector<std::string> extractSoftclip(std::string seq,StringVector mark,Numer
 // [[Rcpp::export]]
 DataFrame extractTagFastq(const char* fastq_path,const char* out_path,
                                          const std::string adapter, const int toolkit,
-                                         const int window, const int step,const int len,
+                                         const int window, const int step,
+                                         const int left_flank, const int right_flank, const bool drop,
                                          const int polyA_bin,
                                          const int polyA_base_count,const int polyA_len){
 
@@ -91,13 +92,14 @@ DataFrame extractTagFastq(const char* fastq_path,const char* out_path,
     if(i % 100 == 0){
       checkUserInterrupt();
     }
-    tag = extractTag(record,adapter,toolkit,window,step,len,
+    tag = extractTag(record,adapter,toolkit,window,step,
+                     left_flank, right_flank, drop,
                      polyA_bin, polyA_base_count, polyA_len);
     if(tag[4] == "1"){
       j++;
     }
     //cout << tag[0] << endl << tag[1] << endl << tag[2] << endl << tag[3] << endl;
-    if(tag[0].size() >= 26){
+    if(tag[0].size() >= 30){
       names.push_back(record.name);
       tags.push_back(tag[0]);
 
@@ -128,7 +130,8 @@ DataFrame extractTagFastq(const char* fastq_path,const char* out_path,
  //' polyA existence for a read.
 std::vector<std::string> extractTag(KSeq record, const std::string adapter,
                                     const int toolkit,
-                                    const int window, const int step,const int len,
+                                    const int window, const int step,
+                                    const int left_flank, const int right_flank, const bool drop,
                                     const int polyA_bin, const int polyA_base_count,const int polyA_len){
   std::string seq = record.seq;
   std::string qual = record.qual;
@@ -153,6 +156,40 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,
   std::string tag = "";
   bool flag = 1;
 
+  if(pos == -1 && rpos != -1){
+    seq = rseq;
+    pos = rpos;
+    qual = rqual;
+  }
+
+  const char base = 'A';
+  bool polyA = polyADetect(seq,polyA_bin,polyA_base_count,base);
+
+  if(pos != -1){
+    if(drop){
+      string left = seq.substr(std::max(0,pos-left_flank),min(pos,left_flank));
+      string right = seq.substr(std::min(pos+adapter.size(),seq.size()),right_flank);
+      tag = left+right;
+    }
+    else{
+      tag = seq.substr(std::max(0,pos-left_flank),std::min(pos,left_flank)+adapter.size()+right_flank);
+    }
+    if(toolkit == 5){
+      int start = std::min(seq.size(),pos+adapter.size()+right_flank);
+      seq = seq.substr(start);
+      qual = qual.substr(start);
+    }
+    else if(toolkit == 3){
+      int end = std::max(0,pos-left_flank);
+      seq = seq.substr(0,end);
+      qual = qual.substr(0,end);
+    }
+  }
+  else{
+    flag = 0;
+  }
+
+  /*
   if(pos != -1 && rpos == -1){
     if(toolkit == 5){
       tag = seq.substr(std::max(0,pos-len),min(pos+2,len+2));
@@ -178,13 +215,9 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,
       qual = rqual.substr(0,std::max(0,rpos-30));
     }
   }
-  else{
-    flag = 0;
-  }
+  */
 
   //cout << seq.size() << " " << qual.size() << endl;
-  const char base = 'A';
-  bool polyA = polyADetect(seq,polyA_bin,polyA_base_count,base);
 
   std::vector<std::string> result;
 
@@ -199,9 +232,11 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,
   return(result);
 }
 
+
+
 //' strSlideSearch
  //'
- //' This function to search for a substring in a string in a slide window way
+ //' This function is to search for a substring in a string in a slide window way
  //'
  //' @inheritParams strSubset
  //' @param record A KSeq object recording a read in the fastq file.
@@ -236,7 +271,7 @@ int strSlideSearch(std::string seq,const std::string adapter,
         pos_vec.push_back(pos);
       }
     }
-    if(pos_vec.size() == 0){
+    if(pos_vec.size() < sub_adapter.size()/2){
       return(-1);
     }
     else{
