@@ -60,6 +60,60 @@ std::vector<std::string> extractSoftclip(std::string seq,StringVector mark,Numer
 }
  */
 
+std::string filePrefix(const std::string& path) {
+  // Find the last occurrence of '/' or '\'
+  size_t last_slash = path.find_last_of("/\\");
+  if (last_slash == std::string::npos) {
+    last_slash = -1; // No directory separator found
+  }
+  // Find the last occurrence of '.'
+  size_t last_dot = path.find_last_of('.');
+  if (last_dot == std::string::npos) {
+    last_dot = path.length(); // No extension found
+  }
+  // Extract file name prefix (name without extension)
+  return path.substr(last_slash + 1, last_dot - last_slash - 1);
+}
+
+void writeSeq(vector<KSeq> records,string path){
+  SeqStreamOut oss(path.c_str(),true, format::fastq);
+
+  for(auto record:records){
+    oss << record;
+  }
+}
+
+// [[Rcpp::export]]
+void fastqSplit(const char* fastq_path,const char* out_path,const int batch){
+
+  KSeq record;
+  SeqStreamIn iss(fastq_path);
+
+  std::string input(fastq_path);
+  std::string prefix = filePrefix(input);
+
+  std::string output(out_path);
+  std::string suffix = ".fq.gz";
+  std::string sep = "/";
+  std::string split = "_";
+
+  int id = 0,i = 0;
+  std::string out_name = "";
+  vector<KSeq> container;
+
+  while (iss >> record){
+    container.push_back(record);
+    i++;
+    if(i >= batch){
+      i = 0;
+      out_name = (output+sep+prefix+split+to_string(id)+suffix);
+      writeSeq(container,out_name);
+      container.clear();
+      id++;
+    }
+  }
+}
+
 //' extractTagFastq
  //'
  //' This function extract the tag region for a fastq.
