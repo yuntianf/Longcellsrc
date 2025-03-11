@@ -223,7 +223,7 @@ NumericVector iso2_mid_diff(std::string a,std::string b,
 
   if(start <= chop_b[0] && start >= chop_b[0]-end_bias &&
     chop_b[0] <= sites_a[1]){
-    start = sites_b[0];
+    start = chop_b[0];
   }
   if(end >= chop_b[b_size - 1] && end <= chop_b[b_size - 1]+end_bias &&
      chop_b[b_size - 1] >= sites_a[a_size - 2]){
@@ -235,10 +235,24 @@ NumericVector iso2_mid_diff(std::string a,std::string b,
     return(out);
   }
 
+
+  //Rcout << start << " " << end << endl;
+
   std::vector<int> chop_a = sites_chop(sites_a, start, end);
 
   int chop_a_size = chop_a.size();
   int chop_b_size = chop_b.size();
+
+  /*
+  for (int i = 0; i < chop_a_size; ++i) {
+    Rcpp::Rcout << chop_a[i] << " ";
+  }
+  Rcout<< endl;
+  for (int i = 0; i < chop_b_size; ++i) {
+    Rcpp::Rcout << chop_b[i] << " ";
+  }
+  Rcout<< endl;
+   */
 
   int intersect = 0;
   int next_start = 0;
@@ -269,6 +283,8 @@ NumericVector iso2_mid_diff(std::string a,std::string b,
       j++;
     }
   }
+
+  // cout << iso_len(chop_a) << " " << iso_len(chop_b) << " " << intersect << endl;
 
   double dis = iso_len(chop_a) + iso_len(chop_b) - 2*intersect;
   double ratio = double(intersect)/double(iso_len(sites_b));
