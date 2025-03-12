@@ -209,39 +209,44 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,
 
   std::string tag = "";
   bool flag = 1;
+  bool polyA = 0;
 
-  if(pos == -1 && rpos != -1){
-    seq = rseq;
-    pos = rpos;
-    qual = rqual;
-  }
-
-  const char base = 'A';
-  bool polyA = polyADetect(seq,polyA_bin,polyA_base_count,base);
-
-  if(pos != -1){
-    if(drop){
-      string left = seq.substr(std::max(0,pos-left_flank),min(pos,left_flank));
-      string right = seq.substr(std::min(pos+adapter.size(),seq.size()),right_flank);
-      tag = left+right;
-    }
-    else{
-      tag = seq.substr(std::max(0,pos-left_flank),std::min(pos,left_flank)+adapter.size()+right_flank);
-    }
-    if(toolkit == 5){
-      int start = std::min(seq.size(),pos+adapter.size()+right_flank);
-      seq = seq.substr(start);
-      qual = qual.substr(start);
-    }
-    else if(toolkit == 3){
-      int end = std::max(0,pos-left_flank);
-      seq = seq.substr(0,end);
-      qual = qual.substr(0,end);
-    }
+  if(pos == -1 && rpos == -1){
+    flag = 0
   }
   else{
-    flag = 0;
+    if(pos == -1 && rpos != -1){
+      seq = rseq;
+      pos = rpos;
+      qual = rqual;
+    }
+
+    const char base = 'A';
+    bool polyA = polyADetect(seq,polyA_bin,polyA_base_count,base);
+
+    if(pos != -1){
+      if(drop){
+        string left = seq.substr(std::max(0,pos-left_flank),min(pos,left_flank));
+        string right = seq.substr(std::min(pos+adapter.size(),seq.size()),right_flank);
+        tag = left+right;
+      }
+      else{
+        tag = seq.substr(std::max(0,pos-left_flank),std::min(pos,left_flank)+adapter.size()+right_flank);
+      }
+      if(toolkit == 5){
+        int start = std::min(seq.size(),pos+adapter.size()+right_flank);
+        seq = seq.substr(start);
+        qual = qual.substr(start);
+      }
+      else if(toolkit == 3){
+        int end = std::max(0,pos-left_flank);
+        seq = seq.substr(0,end);
+        qual = qual.substr(0,end);
+      }
+    }
   }
+
+
 
   /*
   if(pos != -1 && rpos == -1){
