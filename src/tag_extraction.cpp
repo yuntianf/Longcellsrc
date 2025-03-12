@@ -212,7 +212,7 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,
   bool polyA = 0;
 
   if(pos == -1 && rpos == -1){
-    flag = 0
+    flag = 0;
   }
   else{
     if(pos == -1 && rpos != -1){
