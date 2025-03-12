@@ -313,6 +313,7 @@ int strSlideSearch(std::string seq,const std::string adapter,
     pos = seq.rfind(adapter);
   }
 
+  cout << pos << endl;
   if(pos != string::npos){
     return(pos);
   }
@@ -330,10 +331,13 @@ int strSlideSearch(std::string seq,const std::string adapter,
         pos_vec.push_back(pos);
       }
     }
-    if(pos_vec.size() < sub_adapter.size()/2){
+    if(pos_vec.size() == 0){
       return(-1);
     }
     else{
+      if(pos_vec.size() < sub_adapter.size()/2){
+        return(-1);
+      }
       const int n = pos_vec.size();
       return(std::accumulate(pos_vec.begin(), pos_vec.end(),0) / n);
     }
@@ -363,6 +367,10 @@ std::vector<std::string> strSubset(std::string str,const int window, const int s
       vec.push_back(sub);
       start += step;
       end += step;
+    }
+    if(end != len){
+      std::string sub = str.substr(len-window+1,window);
+      vec.push_back(sub);
     }
   }
   return(vec);
