@@ -313,7 +313,7 @@ int strSlideSearch(std::string seq,const std::string adapter,
     pos = seq.rfind(adapter);
   }
 
-  cout << pos << endl;
+  // cout << pos << endl;
   if(pos != string::npos){
     return(pos);
   }
