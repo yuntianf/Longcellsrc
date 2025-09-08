@@ -170,7 +170,28 @@ List splice_site_table_cpp(std::vector<std::string> isoform,
   }
 }
 
+// [[Rcpp::export]]
+LogicalMatrix matrix_xor(IntegerMatrix mat) {
+  int n = mat.nrow(), m = mat.ncol();
+  LogicalMatrix result(n, n);
 
+  for (int i = 0; i < n; ++i) {
+    result(i, i) = true; // self is always non-conflicting
+    for (int j = i + 1; j < n; ++j) {
+      bool conflict = false;
+      for (int k = 0; k < m; ++k) {
+        int vi = mat(i, k);
+        int vj = mat(j, k);
+        if (vi != NA_INTEGER && vj != NA_INTEGER && vi != vj) {
+          conflict = true;
+          break;
+        }
+      }
+      result(i, j) = result(j, i) = !conflict;
+    }
+  }
 
+  return result;
+}
 
 

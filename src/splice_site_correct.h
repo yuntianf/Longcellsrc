@@ -18,3 +18,5 @@ unordered_map<string, int> splice_site_count_cpp(vector<string> isoform,
 List splice_site_table_cpp(vector<string> isoform,
                            const string split = "|",const string sep = ",",
                            const int splice_site_thresh = 10);
+
+LogicalMatrix matrix_xor(IntegerMatrix mat);
