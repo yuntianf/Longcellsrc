@@ -137,6 +137,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// isos_len_cpp
+Rcpp::NumericVector isos_len_cpp(Rcpp::CharacterVector isos);
+RcppExport SEXP _Longcellsrc_isos_len_cpp(SEXP isosSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type isos(isosSEXP);
+    rcpp_result_gen = Rcpp::wrap(isos_len_cpp(isos));
+    return rcpp_result_gen;
+END_RCPP
+}
 // splice_site_table_cpp
 List splice_site_table_cpp(std::vector<std::string> isoform, const std::string split, const std::string sep, const int splice_site_thresh);
 RcppExport SEXP _Longcellsrc_splice_site_table_cpp(SEXP isoformSEXP, SEXP splitSEXP, SEXP sepSEXP, SEXP splice_site_threshSEXP) {
@@ -149,6 +160,29 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const int >::type splice_site_thresh(splice_site_threshSEXP);
     rcpp_result_gen = Rcpp::wrap(splice_site_table_cpp(isoform, split, sep, splice_site_thresh));
     return rcpp_result_gen;
+END_RCPP
+}
+// matrix_xor
+LogicalMatrix matrix_xor(IntegerMatrix mat);
+RcppExport SEXP _Longcellsrc_matrix_xor(SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerMatrix >::type mat(matSEXP);
+    rcpp_result_gen = Rcpp::wrap(matrix_xor(mat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fastqSplit
+void fastqSplit(const char* fastq_path, const char* out_path, const int batch);
+RcppExport SEXP _Longcellsrc_fastqSplit(SEXP fastq_pathSEXP, SEXP out_pathSEXP, SEXP batchSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const char* >::type fastq_path(fastq_pathSEXP);
+    Rcpp::traits::input_parameter< const char* >::type out_path(out_pathSEXP);
+    Rcpp::traits::input_parameter< const int >::type batch(batchSEXP);
+    fastqSplit(fastq_path, out_path, batch);
+    return R_NilValue;
 END_RCPP
 }
 // extractTagFastq
@@ -312,7 +346,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_Longcellsrc_seqEnd", (DL_FUNC) &_Longcellsrc_seqEnd, 3},
     {"_Longcellsrc_isos_dis", (DL_FUNC) &_Longcellsrc_isos_dis, 4},
     {"_Longcellsrc_size_filter_cpp", (DL_FUNC) &_Longcellsrc_size_filter_cpp, 2},
+    {"_Longcellsrc_isos_len_cpp", (DL_FUNC) &_Longcellsrc_isos_len_cpp, 1},
     {"_Longcellsrc_splice_site_table_cpp", (DL_FUNC) &_Longcellsrc_splice_site_table_cpp, 4},
+    {"_Longcellsrc_matrix_xor", (DL_FUNC) &_Longcellsrc_matrix_xor, 1},
+    {"_Longcellsrc_fastqSplit", (DL_FUNC) &_Longcellsrc_fastqSplit, 3},
     {"_Longcellsrc_extractTagFastq", (DL_FUNC) &_Longcellsrc_extractTagFastq, 12},
     {"_Longcellsrc_strSlideSearch", (DL_FUNC) &_Longcellsrc_strSlideSearch, 5},
     {"_Longcellsrc_baseCount", (DL_FUNC) &_Longcellsrc_baseCount, 2},

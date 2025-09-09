@@ -33,8 +33,16 @@ size_filter_cpp <- function(size, ratio) {
     .Call(`_Longcellsrc_size_filter_cpp`, size, ratio)
 }
 
+isos_len_cpp <- function(isos) {
+    .Call(`_Longcellsrc_isos_len_cpp`, isos)
+}
+
 splice_site_table_cpp <- function(isoform, split, sep, splice_site_thresh) {
     .Call(`_Longcellsrc_splice_site_table_cpp`, isoform, split, sep, splice_site_thresh)
+}
+
+matrix_xor <- function(mat) {
+    .Call(`_Longcellsrc_matrix_xor`, mat)
 }
 
 #' extractTagFastq
@@ -63,6 +71,10 @@ NULL
 
 #' replicate
 NULL
+
+fastqSplit <- function(fastq_path, out_path, batch) {
+    invisible(.Call(`_Longcellsrc_fastqSplit`, fastq_path, out_path, batch))
+}
 
 extractTagFastq <- function(fastq_path, out_path, adapter, toolkit, window, step, left_flank, right_flank, drop, polyA_bin, polyA_base_count, polyA_len) {
     .Call(`_Longcellsrc_extractTagFastq`, fastq_path, out_path, adapter, toolkit, window, step, left_flank, right_flank, drop, polyA_bin, polyA_base_count, polyA_len)
