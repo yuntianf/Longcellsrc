@@ -15,3 +15,7 @@ DataFrame isos_dis(const std::vector<std::string> isoforms,const int thresh = 10
 
 NumericVector size_filter_cpp(NumericVector size,double ratio = 0.1);
 
+static inline void parse_sites(const char* p, std::vector<double>& v);
+
+Rcpp::NumericVector isos_len_cpp(Rcpp::CharacterVector isos);
+

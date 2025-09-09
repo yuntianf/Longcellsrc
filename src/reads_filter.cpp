@@ -83,3 +83,52 @@ NumericVector size_filter_cpp(NumericVector size,double ratio){
   weight[size == size[id]] = (sum(size <= size[id])-double(id)-1.0)/sum(size == size[id]);
   return(weight);
 }
+
+// Parse a single isoform string into numeric vector of sites
+static inline void parse_sites(const char* p, std::vector<double>& v) {
+  v.clear();
+  double cur = 0.0;
+  bool in_num = false;
+  bool seen_dot = false;
+  double frac = 0.1;
+
+  for (; *p; ++p) {
+    char c = *p;
+    if (c == 32) continue; // skip spaces
+
+    if ((c >= 48 && c <= 57)) { // digit
+      if (!in_num) { in_num = true; cur = 0.0; seen_dot = false; frac = 0.1; }
+      if (!seen_dot) {
+        cur = cur * 10.0 + (c - 48);
+      } else {
+        cur += (c - 48) * frac;
+        frac *= 0.1;
+      }
+    } else if (c == 46) { // dot
+      if (!in_num) { in_num = true; cur = 0.0; }
+      if (!seen_dot) { seen_dot = true; frac = 0.1; }
+    } else {
+      if (in_num) { v.push_back(cur); in_num = false; }
+      // any non-numeric char (e.g., sep or split) is a delimiter
+    }
+  }
+  if (in_num) v.push_back(cur);
+}
+
+// [[Rcpp::export]]
+Rcpp::NumericVector isos_len_cpp(Rcpp::CharacterVector isos) {
+  const int n = isos.size();
+  Rcpp::NumericVector out(n);
+  std::vector<double> buf; buf.reserve(16);
+
+  for (int i = 0; i < n; ++i) {
+    if (isos[i] == NA_STRING) { out[i] = NA_REAL; continue; }
+    const char* p = Rf_translateCharUTF8(isos[i]);
+    parse_sites(p, buf);
+    const int m = (int)buf.size();
+    double s = 0.0;
+    for (int j = 0; j + 1 < m; j += 2) s += (buf[j + 1] - buf[j]); // by pairs
+    out[i] = s + m / 2.0;  // + n/2 like your iso_len()
+  }
+  return out;
+}
