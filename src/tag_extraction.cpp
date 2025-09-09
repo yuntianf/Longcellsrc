@@ -222,7 +222,7 @@ std::vector<std::string> extractTag(KSeq record, const std::string adapter,
     }
 
     const char base = 'A';
-    bool polyA = polyADetect(seq,polyA_bin,polyA_base_count,base);
+    polyA = polyADetect(seq,polyA_bin,polyA_base_count,base);
 
     if(pos != -1){
       if(drop){
@@ -385,24 +385,21 @@ std::vector<std::string> strSubset(std::string str,const int window, const int s
  //' @param count The minimum threshold for the times that the base appears in the sequence.
  //' @param base The base to be searched, should be 'A' for polyA detection.
  //' @return A bool to indicate if the polyA exist.
-bool polyADetect(std::string seq,const int bin, const int count,const char base){
-  int len = seq.size();
+bool polyADetect(const std::string& seq, int bin, int count, char base) {
+ const int n = static_cast<int>(seq.size());
+ if (bin <= 0 || count <= 0 || n < bin) return false;
 
-  int i = 0;
-  while(i <= (len-bin)){
-    std::string subseq = seq.substr(i,bin);
-    int bc = baseCount(subseq, base);
+ int bc = 0; // count of `base` in current window
+ for (int i = 0; i < bin; ++i) bc += (seq[i] == base);
 
-    if(bc < count){
-      int next = count - bc;
-      i = i + next;
-    }
-    else{
-      return(true);
-    }
-  }
+ if (bc >= count) return true;
 
-  return(false);
+ for (int i = bin; i < n; ++i) {
+   bc += (seq[i] == base);
+   bc -= (seq[i - bin] == base);
+   if (bc >= count) return true;
+ }
+ return false;
 }
 
 

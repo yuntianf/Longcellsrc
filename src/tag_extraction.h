@@ -14,7 +14,7 @@ int baseCount(std::string seq, char base);
 std::string reverseComplement(const std::string& sequence);
 
 
-bool polyADetect(std::string seq,const int bin = 20, const int count = 15,const char base = 'A');
+bool polyADetect(const std::string seq, int bin = 20, int count = 15, char base = 'A');
 size_t polyARm(std::string seq, const int polyA_len = 10);
 
 /*
