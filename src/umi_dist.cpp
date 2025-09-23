@@ -47,7 +47,7 @@ std::vector<int> isoform2sites(std::string iso,
 
   std::vector<int> sites_int;
   transform(sites_chr.begin(), sites_chr.end(), back_inserter(sites_int),
-            [](const std::string& str) { return stoi(str); });
+            [](const std::string& str) { return static_cast<int>(std::stod(str)); });
 
   return(sites_int);
 }
